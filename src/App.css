@@ -267,7 +267,7 @@
   position: relative;
   width: 82%;
   height: 70%;
-  margin-top: 100px; /* reduced margin-top to better center vertically */
+  margin-top: 67px;                               /* reduced margin-top to better center vertically */
   z-index: 2;
   overflow: hidden;
   background: transparent;
@@ -294,7 +294,7 @@
 .user-info-template {
   position: absolute; /* unified positioning for preview + export */
   left: 50%; /* horizontal center */
-  top: 68%; /* vertical anchor as percentage of card height */                     /* TEMPLATE PHOTO IN TEXT POSITION */
+  top: 60%; /* vertical anchor as percentage of card height */                     /* TEMPLATE PHOTO IN TEXT POSITION */
   transform: translateX(-50%);
   width: 104%; /* text width relative to card */
   text-align: center;
@@ -312,12 +312,12 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px; /* spacing between name and course */
+  gap: 9px; /* spacing between name and course */
 }
 
 .user-info-template .user-name {
   font-family: 'verdana';
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   color: #841926;                        /* TEXT COLOR */  
   font-weight: 600;
   line-height: 1.00;
