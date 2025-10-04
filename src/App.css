@@ -267,7 +267,7 @@
   position: relative;
   width: 82%;
   height: 70%;
-  margin-top: 67px;                               /* reduced margin-top to better center vertically */
+  margin-top: 80px;                               /* reduced margin-top to better center vertically */
   z-index: 2;
   overflow: hidden;
   background: transparent;
@@ -294,7 +294,7 @@
 .user-info-template {
   position: absolute; /* unified positioning for preview + export */
   left: 50%; /* horizontal center */
-  top: 60%; /* vertical anchor as percentage of card height */                     /* TEMPLATE PHOTO IN TEXT POSITION */
+  top: 65%; /* vertical anchor as percentage of card height */                     /* TEMPLATE PHOTO IN TEXT POSITION */
   transform: translateX(-50%);
   width: 104%; /* text width relative to card */
   text-align: center;
