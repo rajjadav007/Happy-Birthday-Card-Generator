@@ -267,7 +267,7 @@
   position: relative;
   width: 82%;
   height: 70%;
-  margin-top: 80px;                               /* reduced margin-top to better center vertically */
+  margin-top: 85px;                               /* reduced margin-top to better center vertically */
   z-index: 2;
   overflow: hidden;
   background: transparent;
