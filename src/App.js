@@ -6,11 +6,66 @@ import { normalizeImage } from './utils/image.js';
 
 function App() {
   const [cards, setCards] = useState([
-    { id: 1, image: null, name: '', title: '', previewUrl: null, croppedUrl: null },
-    { id: 2, image: null, name: '', title: '', previewUrl: null, croppedUrl: null },
-    { id: 3, image: null, name: '', title: '', previewUrl: null, croppedUrl: null },
-    { id: 4, image: null, name: '', title: '', previewUrl: null, croppedUrl: null }
+    { 
+      id: 1, 
+      image: null, 
+      name: '', 
+      title: '', 
+      previewUrl: null, 
+      croppedUrl: null,
+      photoPosition: { x: '50%', y: '28%' },
+      photoSize: { width: '36%', height: 'auto' },
+      namePosition: { x: '50%', y: '82%' },
+      titlePosition: { x: '50%', y: '88%' },
+      nameStyle: { fontSize: '18px', color: '#ffffff', fontWeight: '600' },
+      titleStyle: { fontSize: '14px', color: '#ffffff', fontWeight: '400' }
+    },
+    { 
+      id: 2, 
+      image: null, 
+      name: '', 
+      title: '', 
+      previewUrl: null, 
+      croppedUrl: null,
+      photoPosition: { x: '50%', y: '28%' },
+      photoSize: { width: '36%', height: 'auto' },
+      namePosition: { x: '50%', y: '82%' },
+      titlePosition: { x: '50%', y: '88%' },
+      nameStyle: { fontSize: '18px', color: '#ffffff', fontWeight: '600' },
+      titleStyle: { fontSize: '14px', color: '#ffffff', fontWeight: '400' }
+    },
+    { 
+      id: 3, 
+      image: null, 
+      name: '', 
+      title: '', 
+      previewUrl: null, 
+      croppedUrl: null,
+      photoPosition: { x: '50%', y: '28%' },
+      photoSize: { width: '36%', height: 'auto' },
+      namePosition: { x: '50%', y: '82%' },
+      titlePosition: { x: '50%', y: '88%' },
+      nameStyle: { fontSize: '18px', color: '#ffffff', fontWeight: '600' },
+      titleStyle: { fontSize: '14px', color: '#ffffff', fontWeight: '400' }
+    },
+    { 
+      id: 4, 
+      image: null, 
+      name: '', 
+      title: '', 
+      previewUrl: null, 
+      croppedUrl: null,
+      photoPosition: { x: '50%', y: '28%' },
+      photoSize: { width: '36%', height: 'auto' },
+      namePosition: { x: '50%', y: '82%' },
+      titlePosition: { x: '50%', y: '88%' },
+      nameStyle: { fontSize: '18px', color: '#ffffff', fontWeight: '600' },
+      titleStyle: { fontSize: '14px', color: '#ffffff', fontWeight: '400' }
+    }
   ]);
+  const [templateBackground, setTemplateBackground] = useState(`${process.env.PUBLIC_URL}/card_photo.png`);
+  const [selectedCard, setSelectedCard] = useState(null);
+  const [selectedElement, setSelectedElement] = useState(null);
   const exportRef = useRef();
   const [cropperForCardId, setCropperForCardId] = useState(null);
   const [pendingImageUrl, setPendingImageUrl] = useState(null);
@@ -54,6 +109,47 @@ function App() {
     setCards(prev => prev.map(card =>
       card.id === id ? { ...card, title } : card
     ));
+  };
+
+  const handleTemplateUpload = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      setTemplateBackground(e.target.result);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleElementUpdate = (cardId, elementType, updates) => {
+    setCards(prev => prev.map(card => {
+      if (card.id === cardId) {
+        if (elementType === 'photo') {
+          return { ...card, photoPosition: updates.position || card.photoPosition, photoSize: updates.size || card.photoSize };
+        } else if (elementType === 'name') {
+          return { ...card, namePosition: updates.position || card.namePosition, nameStyle: { ...card.nameStyle, ...updates.style } };
+        } else if (elementType === 'title') {
+          return { ...card, titlePosition: updates.position || card.titlePosition, titleStyle: { ...card.titleStyle, ...updates.style } };
+        }
+      }
+      return card;
+    }));
+  };
+
+  const resetCardLayout = (cardId) => {
+    setCards(prev => prev.map(card => {
+      if (card.id === cardId) {
+        return {
+          ...card,
+          photoPosition: { x: '50%', y: '28%' },
+          photoSize: { width: '36%', height: 'auto' },
+          namePosition: { x: '50%', y: '82%' },
+          titlePosition: { x: '50%', y: '88%' },
+          nameStyle: { fontSize: '18px', color: '#ffffff', fontWeight: '600' },
+          titleStyle: { fontSize: '14px', color: '#ffffff', fontWeight: '400' }
+        };
+      }
+      return card;
+    }));
   };
 
   const generatePDF = async () => {
@@ -116,6 +212,30 @@ function App() {
       <main className="app-main">
         <div className="input-section">
           <h2>Create Your Cards</h2>
+          
+          {/* Template Upload Section */}
+          <div className="template-upload-section">
+            <h3>📋 Card Template</h3>
+            <div className="template-controls">
+              <label htmlFor="template-upload" className="template-upload-label">
+                <span>🖼️ Upload Your Template</span>
+              </label>
+              <input
+                id="template-upload"
+                type="file"
+                accept="image/png, image/jpg, image/jpeg"
+                onChange={(e) => handleTemplateUpload(e.target.files[0])}
+                style={{ display: 'none' }}
+              />
+              <button 
+                className="btn btn-secondary"
+                onClick={() => setTemplateBackground(`${process.env.PUBLIC_URL}/card_photo.png`)}
+              >
+                Reset to Default
+              </button>
+            </div>
+          </div>
+
           <div className="cards-input">
             {cards.map((card) => (
               <div key={card.id} className="card-input">
@@ -168,19 +288,79 @@ function App() {
         </div>
 
         <div className="preview-section">
-          <h2>Preview Cards</h2>
+          <h2>Interactive Preview - Drag & Customize</h2>
           <div className="cards-preview">
             {cards.map((card) => (
               <Card
                 key={card.id}
-                image={card.image}
-                name={card.name}
-                title={card.title}
-                previewUrl={card.croppedUrl || card.previewUrl}
+                card={card}
+                templateBackground={templateBackground}
+                onElementUpdate={handleElementUpdate}
+                onCardSelect={setSelectedCard}
+                isSelected={selectedCard === card.id}
+                onElementSelect={setSelectedElement}
+                selectedElement={selectedElement}
+                isInteractive={true}
               />
             ))}
           </div>
         </div>
+
+        {selectedCard && (
+          <div className="customization-panel">
+            <h3>Customize Card {selectedCard}</h3>
+            <div className="panel-content">
+              {selectedElement === 'name' && (
+                <div className="style-controls">
+                  <label>
+                    Font Size:
+                    <input
+                      type="range"
+                      min="12"
+                      max="32"
+                      value={parseInt(cards.find(c => c.id === selectedCard)?.nameStyle.fontSize)}
+                      onChange={(e) => handleElementUpdate(selectedCard, 'name', { style: { fontSize: `${e.target.value}px` } })}
+                    />
+                    <span>{cards.find(c => c.id === selectedCard)?.nameStyle.fontSize}</span>
+                  </label>
+                  <label>
+                    Color:
+                    <input
+                      type="color"
+                      value={cards.find(c => c.id === selectedCard)?.nameStyle.color}
+                      onChange={(e) => handleElementUpdate(selectedCard, 'name', { style: { color: e.target.value } })}
+                    />
+                  </label>
+                </div>
+              )}
+              {selectedElement === 'title' && (
+                <div className="style-controls">
+                  <label>
+                    Font Size:
+                    <input
+                      type="range"
+                      min="10"
+                      max="24"
+                      value={parseInt(cards.find(c => c.id === selectedCard)?.titleStyle.fontSize)}
+                      onChange={(e) => handleElementUpdate(selectedCard, 'title', { style: { fontSize: `${e.target.value}px` } })}
+                    />
+                    <span>{cards.find(c => c.id === selectedCard)?.titleStyle.fontSize}</span>
+                  </label>
+                  <label>
+                    Color:
+                    <input
+                      type="color"
+                      value={cards.find(c => c.id === selectedCard)?.titleStyle.color}
+                      onChange={(e) => handleElementUpdate(selectedCard, 'title', { style: { color: e.target.value } })}
+                    />
+                  </label>
+                </div>
+              )}
+              <button className="btn" onClick={() => resetCardLayout(selectedCard)}>Reset Layout</button>
+              <button className="btn btn-secondary" onClick={() => { setSelectedCard(null); setSelectedElement(null); }}>Close</button>
+            </div>
+          </div>
+        )}
 
         <div className="export-section">
           <button
@@ -206,10 +386,9 @@ function App() {
               card.image && card.name ? (
                 <Card
                   key={card.id}
-                  image={card.image}
-                  name={card.name}
-                  title={card.title}
-                  previewUrl={card.croppedUrl || card.previewUrl}
+                  card={card}
+                  templateBackground={templateBackground}
+                  isInteractive={false}
                 />
               ) : null
             ))}

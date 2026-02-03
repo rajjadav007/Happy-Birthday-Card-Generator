@@ -107,6 +107,53 @@
   font-weight: 600;
 }
 
+/* Template Upload Section */
+.template-upload-section {
+  background: #f0f4ff;
+  border: 2px solid #6A0572;
+  border-radius: 15px;
+  padding: 20px;
+  margin-bottom: 25px;
+}
+
+.template-upload-section h3 {
+  color: #6A0572;
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.template-controls {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.template-upload-label {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(135deg, #6A0572 0%, #8B008B 100%);
+  color: white;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(106, 5, 114, 0.3);
+}
+
+.template-upload-label:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(106, 5, 114, 0.4);
+  background: linear-gradient(135deg, #8B008B 0%, #6A0572 100%);
+}
+
+.template-upload-label span {
+  display: inline-block;
+}
+
 /* Upload Area */
 .upload-area {
   margin-bottom: 20px;
@@ -250,6 +297,74 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.birthday-card-template.card-selected {
+  box-shadow: 0 0 0 3px #6A0572;
+  transform: scale(1.02);
+}
+
+.draggable-photo,
+.draggable-text {
+  z-index: 10 !important;
+  touch-action: none !important;
+}
+
+.draggable-photo .react-draggable,
+.draggable-text .react-draggable {
+  cursor: move;
+  touch-action: none !important;
+}
+
+.draggable-photo.is-dragging {
+  z-index: 999 !important;
+  opacity: 0.9;
+  box-shadow: 0 8px 16px rgba(106, 5, 114, 0.4);
+}
+
+.draggable-text.is-dragging {
+  z-index: 999 !important;
+  opacity: 0.9;
+}
+
+/* Prevent text selection during drag */
+.birthday-card-template * {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Ensure pointer events work correctly */
+.react-draggable {
+  touch-action: none !important;
+  -ms-touch-action: none !important;
+}
+
+/* Style resize handles for better visibility */
+.react-resizable-handle {
+  touch-action: none !important;
+}
+
+.react-resizable-handle-se,
+.react-resizable-handle-sw,
+.react-resizable-handle-ne,
+.react-resizable-handle-nw {
+  width: 20px !important;
+  height: 20px !important;
+  border: 2px solid #6A0572 !important;
+  background: white !important;
+  border-radius: 50% !important;
+  z-index: 1000 !important;
+}
+
+.react-resizable-handle-se:hover,
+.react-resizable-handle-sw:hover,
+.react-resizable-handle-ne:hover,
+.react-resizable-handle-nw:hover {
+  background: #6A0572 !important;
 }
 
 .card-template-image {
@@ -291,6 +406,10 @@
     object-position: center;
 }
 
+.export-page .user-photo-in-frame {
+    width: 130px;
+}
+
 .user-info-template {
   position: absolute; /* unified positioning for preview + export */
   left: 50%; /* horizontal center */
@@ -303,8 +422,6 @@
   font-size: 16px;
   font-weight: 600;
   padding: 8px 10px;
-  /* box-sizing: border-box; */
-  /* pointer-events: none;*/ /*ensure overlay is passive */
 }
 
 /* Remove duplicate conflicting rule and keep a single flex layout */
@@ -429,7 +546,66 @@
   border: none;
   cursor: pointer;
 }
+/* Customization Panel */
+.customization-panel {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  min-width: 300px;
+  max-width: 400px;
+  border: 2px solid #6A0572;
+}
 
+.customization-panel h3 {
+  color: #6A0572;
+  margin-bottom: 15px;
+  font-size: 1.2rem;
+  border-bottom: 2px solid #6A0572;
+  padding-bottom: 10px;
+}
+
+.panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.style-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.style-controls label {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-weight: 500;
+  color: #333;
+}
+
+.style-controls input[type="range"] {
+  width: 100%;
+  accent-color: #6A0572;
+}
+
+.style-controls input[type="color"] {
+  width: 60px;
+  height: 40px;
+  border: 2px solid #6A0572;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.style-controls span {
+  font-weight: 600;
+  color: #6A0572;
+}
 .btn-primary {
   background: linear-gradient(135deg, #6A0572 0%, #8B008B 100%);
   color: #fff;
@@ -454,19 +630,21 @@
 
 .export-page .cards-preview {
   display: grid;
-  grid-template-columns: repeat(2, 300px);
-  grid-template-rows: repeat(2, auto);
-  gap: 20px;
-  padding: 0;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  gap: 10mm;
+  padding: 10mm;
   margin: 0;
   box-sizing: border-box;
-  overflow: hidden;
+  width: 100%;
+  height: 100%;
 }
 
 .export-page .birthday-card-template {
-  width: 300px;
-  height: 400px;
+  width: 100%;
+  height: 100%;
   margin: 0;
+  min-height: 130mm;
 }
 
 /* Performance: reduce heavy shadows/borders inside export-only area */

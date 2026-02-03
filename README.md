@@ -30,7 +30,7 @@ cd birthday-card-generator
 npm install
 
 # Start development server
-npm start
+npm run dev
 
 The app will be available at `http://localhost:3000`
 

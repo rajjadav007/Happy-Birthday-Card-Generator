@@ -4,6 +4,7 @@
   "description": "A React app for generating personalized birthday cards with PDF export",
   "main": "index.js",
   "scripts": {
+    "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
@@ -16,10 +17,11 @@
     "exifr": "^7.1.3",
     "firebase": "^12.2.1",
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2",
+    "jspdf": "^4.1.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-easy-crop": "^5.5.0",
+    "react-rnd": "^10.5.2",
     "react-scripts": "^5.0.1"
   },
   "browserslist": {
